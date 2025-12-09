@@ -11,6 +11,13 @@ public class CameraMovement : MonoBehaviour
     private float cinemachineTargetPitch;
     private float cinemachineTargetYaw;
 
+    private void Start()
+    {
+        var euler = followTarget.rotation.eulerAngles;
+        cinemachineTargetYaw = euler.y;
+        cinemachineTargetPitch = euler.x;
+    }
+
     private void LateUpdate()
     {
         CameraLogic();
