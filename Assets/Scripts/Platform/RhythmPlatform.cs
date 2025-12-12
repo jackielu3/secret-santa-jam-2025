@@ -54,4 +54,10 @@ public class RhythmPlatform : MonoBehaviour
             Debug.Log($"Miss! Offset {offsetBeats:F3} beats");
         }
     }
+
+    public void SetBehavior(PlatformBehavior newBehavior)
+    {
+        behavior = newBehavior;
+        ApplyColor();
+    }
 }
