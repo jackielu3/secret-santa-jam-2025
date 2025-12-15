@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Platform Behavior", fileName = "NewPlatformBehavior")]
-public class PlatformBehavior: ScriptableObject
+public class PlatformBehavior : ScriptableObject
 {
     [Header("Look")]
     public Color platformColor = Color.white;
@@ -12,6 +12,8 @@ public class PlatformBehavior: ScriptableObject
     [Header("Spawning")]
     [Tooltip("How many platforms to spawn when player lands on this one.")]
     public int platformsToSpawn = 1;
+    [Tooltip("ONLY IF platformsToSpawn = 1")]
+    public int splitsToSpawn = 0;
 
     [Tooltip("Beats between each spawned platform (if > 1).")]
     public float beatsBetweenSpawns = 1f;
@@ -26,4 +28,8 @@ public class PlatformBehavior: ScriptableObject
     public float defaultSideOffset = 0f;
 
     public PlatformBehavior nextBehavior;
+
+    [Header("Lose Plane")]
+    public float loseOffset = 3f;
+    public float loseSize = 10f;
 }

@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlatformBehavior
   platformColor: {r: 1, g: 0.84232986, b: 0, a: 1}
   hitWindowBeats: 0.25
-  platformsToSpawn: 1
-  beatsBetweenSpawns: 1
+  platformsToSpawn: 6
+  splitsToSpawn: 0
+  beatsBetweenSpawns: 0.33
   relativePositions: []
   usePlayerForward: 1
   defaultForwardDistance: 5
   defaultVerticalOffset: 1
   defaultSideOffset: 0
   nextBehavior: {fileID: 11400000, guid: d65877c77ff7fca468870c18b84f203d, type: 2}
+  loseOffset: 0
+  loseSize: 0

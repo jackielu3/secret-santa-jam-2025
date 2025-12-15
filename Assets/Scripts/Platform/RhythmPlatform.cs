@@ -5,28 +5,31 @@ using UnityEngine;
 
 public interface IPlatformLandingAction
 {
-    void OnLanded(RhythmPlatform platform, Transform player, float offsetBeats);
+    void OnLanded(RhythmPlatform platform, Transform player, float offsetBeats, bool lastInChain);
 }
 
 [RequireComponent(typeof(Renderer))]
 public class RhythmPlatform : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private PlatformBehavior behavior;
+    public PlatformBehavior Behavior => behavior;
+
+    [Header("Spawn Logic")]
+    [SerializeField] private bool lastInChain;
 
     private Renderer _renderer;
     private bool _used = false;
     private IPlatformLandingAction _action;
 
     private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
-
     private MaterialPropertyBlock _mpb;
-
-    public PlatformBehavior Behavior => behavior;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
         _action = GetComponent<IPlatformLandingAction>();
+
         ApplyColorRuntime();
     }
 
@@ -76,17 +79,14 @@ public class RhythmPlatform : MonoBehaviour
         _used = true;
 
         float offsetBeats = 0f;
-        if (BeatConductor.Instance != null)
-            offsetBeats = BeatConductor.Instance.GetOffsetBeats();
+        if (BeatConductor.Instance != null) offsetBeats = BeatConductor.Instance.GetOffsetBeats();
 
         if (_action != null)
         {
-            Debug.Log("REEEE1");
-            _action.OnLanded(this, player, offsetBeats);
+            _action.OnLanded(this, player, offsetBeats, lastInChain);
         }
-        else
-            Debug.Log("REEEE2");
-        PlatformSpawner.Instance.SpawnFromPlatform(this, player); // default fallback
+
+        if (lastInChain) PlatformSpawner.Instance.SpawnFromPlatform(this, player); // default fallback
 
     }
 
@@ -96,4 +96,6 @@ public class RhythmPlatform : MonoBehaviour
         CacheRenderer();
         ApplyColorRuntime();
     }
+
+    public void SetLastInChain(bool last) => lastInChain = last;
 }

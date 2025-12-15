@@ -60,7 +60,9 @@ public class PlatformSpawner : MonoBehaviour
 
             if (rhythmPlat != null)
             {
-                AssignBehavior(rhythmPlat, next);   
+                AssignBehavior(rhythmPlat, next);
+                bool isLast = (i == count - 1);
+                rhythmPlat.SetLastInChain(isLast);
             }
 
             lastAnchor = newPlatObj.transform;

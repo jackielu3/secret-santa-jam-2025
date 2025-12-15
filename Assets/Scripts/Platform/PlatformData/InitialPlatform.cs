@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class InitialPlatform : MonoBehaviour, IPlatformLandingAction
 {
-    public void OnLanded(RhythmPlatform platform, Transform player, float offsetBeats)
+    public void OnLanded(RhythmPlatform platform, Transform player, float offsetBeats, bool lastInChain)
     {
-        Debug.Log("REEEEEEE");
         PlatformSpawner.Instance.SpawnFromPlatform(platform, player);
     }
 }
