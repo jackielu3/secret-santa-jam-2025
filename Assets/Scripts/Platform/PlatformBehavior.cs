@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Platform Behavior", fileName = "NewPlatformBehavior")]
@@ -22,11 +23,19 @@ public class PlatformBehavior : ScriptableObject
 
     public bool usePlayerForward = true;
 
-    [Header("Default Distance (if relativePositions is empty)")]
+    [Header("Default Distance")]
     public float defaultForwardDistance = 5f;
     public float defaultVerticalOffset = 0f;
     public float defaultSideOffset = 0f;
 
+    [Header("Random Spawn Distance")]
+    public bool useRandom = false;
+    public float spawnRadius = 0f;
+    [Range(0f, 360f)] public float spawnArcDegrees = 0f;
+
+    [Header("Rotation")]
+    public Vector3 rotationMult = Vector3.one;
+    
     public PlatformBehavior nextBehavior;
 
     [Header("Lose Plane")]

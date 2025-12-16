@@ -52,8 +52,9 @@ public class PlatformSpawner : MonoBehaviour
         {
             Vector3 offset = ComputeOffsetForIndex(i, behavior, lastAnchor, player);
             Vector3 spawnPos = lastAnchor.position + offset;
+            Quaternion rotation = Quaternion.LookRotation(offset.normalized);
 
-            GameObject newPlatObj = Instantiate(platformPrefab, spawnPos, Quaternion.identity);
+            GameObject newPlatObj = Instantiate(platformPrefab, spawnPos, rotation);
             var rhythmPlat = newPlatObj.GetComponent<RhythmPlatform>();
 
             PlatformBehavior next = behavior.nextBehavior ? behavior.nextBehavior : behavior;
@@ -80,21 +81,29 @@ public class PlatformSpawner : MonoBehaviour
     {
         if (behavior.relativePositions != null && behavior.relativePositions.Length > 0)
         {
-            Vector3 patternOffset = behavior.relativePositions[Mathf.Min(i, behavior.relativePositions.Length - 1)];
-            if (behavior.usePlayerForward && player != null)
+            if (behavior.useRandom == false)
             {
-                Vector3 forward = player.forward;
-                Vector3 right = player.right;
-                Vector3 up = Vector3.up;
+                Vector3 patternOffset = behavior.relativePositions[Mathf.Min(i, behavior.relativePositions.Length - 1)];
+                if (behavior.usePlayerForward && player != null)
+                {
+                    Vector3 forward = player.forward;
+                    Vector3 right = player.right;
+                    Vector3 up = Vector3.up;
 
 
-                return forward * patternOffset.z
-                    + right * patternOffset.x
-                    + up * patternOffset.y;
+                    return forward * patternOffset.z
+                        + right * patternOffset.x
+                        + up * patternOffset.y;
+                }
+                else
+                {
+                    return patternOffset;
+                }
             }
             else
             {
-                return patternOffset;
+                float half = behavior.spawnArcDegrees * 0.5f;
+                float a = Random.Range(-half, half) * Mathf.Deg2Rad;
             }
         }
 
