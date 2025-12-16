@@ -43,6 +43,7 @@ public class BeatConductor : MonoBehaviour
         {
             _lastBeatIndex = beatIndex;
             OnBeat?.Invoke(beatIndex);
+            Debug.Log($"{beatIndex}");
         }
     }
 
