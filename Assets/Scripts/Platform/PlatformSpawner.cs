@@ -7,7 +7,6 @@ public class PlatformSpawner : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject platformPrefab;
-    [SerializeField] private Transform playerTransform;
 
     private void Awake()
     {
@@ -33,10 +32,10 @@ public class PlatformSpawner : MonoBehaviour
             return;
         }
 
-        StartCoroutine(SpawnRoutine(origin.transform, player, behavior));
+        StartCoroutine(SpawnRoutine(origin.transform, behavior));
     }
 
-    private IEnumerator SpawnRoutine(Transform origin, Transform player, PlatformBehavior behavior)
+    private IEnumerator SpawnRoutine(Transform origin, PlatformBehavior behavior)
     {
         int count = Mathf.Max(1, behavior.platformsToSpawn);
 
@@ -50,9 +49,16 @@ public class PlatformSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            Vector3 offset = ComputeOffsetForIndex(i, behavior, lastAnchor, player);
+            Vector3 offset = ComputeOffsetForIndex(i, behavior, lastAnchor);
             Vector3 spawnPos = lastAnchor.position + offset;
-            Quaternion rotation = Quaternion.LookRotation(offset.normalized);
+
+            Vector3 away = (spawnPos - lastAnchor.position);
+            if (away.sqrMagnitude < 1e-6f) away = lastAnchor.forward;
+            away.Normalize();
+            Quaternion lookRot = Quaternion.LookRotation(away, Vector3.up);
+            Vector3 euler = lookRot.eulerAngles;
+            euler = Vector3.Scale(euler, behavior.rotationMult);
+            Quaternion rotation = Quaternion.Euler(euler);
 
             GameObject newPlatObj = Instantiate(platformPrefab, spawnPos, rotation);
             var rhythmPlat = newPlatObj.GetComponent<RhythmPlatform>();
@@ -77,48 +83,41 @@ public class PlatformSpawner : MonoBehaviour
         yield break;
     }
 
-    private Vector3 ComputeOffsetForIndex(int i, PlatformBehavior behavior, Transform origin, Transform player)
+    private Vector3 ComputeOffsetForIndex(int i, PlatformBehavior behavior, Transform origin)
     {
+        Vector3 forward = origin.forward;
+        Vector3 right = origin.right;
+        Vector3 up = Vector3.up;
+
         if (behavior.relativePositions != null && behavior.relativePositions.Length > 0)
         {
-            if (behavior.useRandom == false)
-            {
-                Vector3 patternOffset = behavior.relativePositions[Mathf.Min(i, behavior.relativePositions.Length - 1)];
-                if (behavior.usePlayerForward && player != null)
-                {
-                    Vector3 forward = player.forward;
-                    Vector3 right = player.right;
-                    Vector3 up = Vector3.up;
-
-
-                    return forward * patternOffset.z
-                        + right * patternOffset.x
-                        + up * patternOffset.y;
-                }
-                else
-                {
-                    return patternOffset;
-                }
-            }
-            else
-            {
-                float half = behavior.spawnArcDegrees * 0.5f;
-                float a = Random.Range(-half, half) * Mathf.Deg2Rad;
-            }
+            Vector3 patternOffset = behavior.relativePositions[Mathf.Min(i, behavior.relativePositions.Length - 1)];
+            return right * patternOffset.x + up * patternOffset.y + forward * patternOffset.z;
         }
 
-        if (player != null)
+        if (behavior.useRandom != false)
         {
-            Vector3 forward = player.forward;
-            Vector3 right = player.right;
-            Vector3 up = Vector3.up;
+            float half = behavior.spawnArcDegrees * 0.5f;
+            float angle = Random.Range(-half, half);
 
-            return forward * behavior.defaultForwardDistance
-                + right * behavior.defaultSideOffset
-                + up * behavior.defaultVerticalOffset;
+            Vector3 baseForward = Vector3.ProjectOnPlane(origin.forward, Vector3.up).normalized;
+            if (baseForward.sqrMagnitude < 1e-6f) baseForward = Vector3.forward;
+
+            Vector3 dir = Quaternion.AngleAxis(angle, Vector3.up) * baseForward;
+
+            float yOffset = 0;
+            if (behavior.maxTopOffset != 0 || behavior.maxBotOffset != 0)
+            {
+                yOffset = Random.Range(behavior.maxBotOffset, behavior.maxTopOffset);
+            }
+
+            return dir * behavior.spawnRadius + Vector3.up * yOffset;
         }
 
-        return Vector3.forward * behavior.defaultForwardDistance;
+        // Default offset (also relative to origin rotation now)
+        return forward * behavior.defaultForwardDistance
+             + right * behavior.defaultSideOffset
+             + up * behavior.defaultVerticalOffset;
     }
 
     private void AssignBehavior(RhythmPlatform platform, PlatformBehavior behavior)

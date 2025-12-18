@@ -14,7 +14,7 @@ public class BeatConductor : MonoBehaviour
     public float BeatDuration => 60f / bpm;
     public float SongPositionSeconds => Time.fixedTime - songOffsetSeconds; // TODO
     public float SongPositionBeats => SongPositionSeconds / BeatDuration;
-
+    public long LastBeatIndex => _lastBeatIndex;
 
     public event Action<long> OnBeat;
     [ReadOnly] private long _lastBeatIndex = -1;
@@ -43,7 +43,7 @@ public class BeatConductor : MonoBehaviour
         {
             _lastBeatIndex = beatIndex;
             OnBeat?.Invoke(beatIndex);
-            Debug.Log($"{beatIndex}");
+            // Debug.Log($"{beatIndex}");
         }
     }
 

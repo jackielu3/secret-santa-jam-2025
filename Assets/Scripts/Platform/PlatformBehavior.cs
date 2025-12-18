@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class PlatformBehavior : ScriptableObject
 
     [Header("Timing")]
     public float hitWindowBeats = 0.25f;
+    public float despawnAfterBeats = 2f;
 
     [Header("Spawning")]
     [Tooltip("How many platforms to spawn when player lands on this one.")]
@@ -21,8 +23,6 @@ public class PlatformBehavior : ScriptableObject
 
     public Vector3[] relativePositions;
 
-    public bool usePlayerForward = true;
-
     [Header("Default Distance")]
     public float defaultForwardDistance = 5f;
     public float defaultVerticalOffset = 0f;
@@ -32,6 +32,8 @@ public class PlatformBehavior : ScriptableObject
     public bool useRandom = false;
     public float spawnRadius = 0f;
     [Range(0f, 360f)] public float spawnArcDegrees = 0f;
+    public float maxTopOffset = 0f;
+    public float maxBotOffset = 0f;
 
     [Header("Rotation")]
     public Vector3 rotationMult = Vector3.one;
@@ -40,5 +42,8 @@ public class PlatformBehavior : ScriptableObject
 
     [Header("Lose Plane")]
     public float loseOffset = 3f;
-    public float loseSize = 10f;
+
+    [Header("Special")]
+    public bool first = false;
+    public bool last = false;
 }

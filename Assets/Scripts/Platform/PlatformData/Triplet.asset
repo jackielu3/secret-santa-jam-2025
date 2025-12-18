@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ce60b463909a3448bb91a7093736cc5, type: 3}
-  m_Name: InitialPlatform
+  m_Name: Triplet
   m_EditorClassIdentifier: Assembly-CSharp::PlatformBehavior
   platformColor: {r: 1, g: 0.84232986, b: 0, a: 1}
   hitWindowBeats: 0.25
   despawnAfterBeats: 2
-  platformsToSpawn: 1
+  platformsToSpawn: 3
   splitsToSpawn: 0
-  beatsBetweenSpawns: 1
+  beatsBetweenSpawns: 0.33
   relativePositions: []
   defaultForwardDistance: 5
   defaultVerticalOffset: 1
@@ -30,5 +30,3 @@ MonoBehaviour:
   rotationMult: {x: 0, y: 1, z: 0}
   nextBehavior: {fileID: 11400000, guid: d65877c77ff7fca468870c18b84f203d, type: 2}
   loseOffset: 0
-  first: 1
-  last: 0

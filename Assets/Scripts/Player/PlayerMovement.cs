@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PhysicsMaterial frictionless;
     [SerializeField] private PhysicsMaterial stickyFeet;
 
+    [Header("Game Logic")]
+    [ReadOnly] public float loseHeight;
+
 
     private void Awake()
     {
@@ -149,6 +152,11 @@ public class PlayerMovement : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
+    }
+
+    private void OnLose()
+    {
+
     }
 
 }
