@@ -8,6 +8,12 @@ public class PlatformSpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject platformPrefab;
 
+    [Header("Dotted Links")]
+    [SerializeField] private Transform dotPrefab;
+    [SerializeField] private float dottedLineWidth = 0.01f;
+    [SerializeField] private float dottedSpacingMultiplier = 5f;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -64,6 +70,7 @@ public class PlatformSpawner : MonoBehaviour
             var rhythmPlat = newPlatObj.GetComponent<RhythmPlatform>();
 
             PlatformBehavior next = behavior.nextBehavior ? behavior.nextBehavior : behavior;
+            CreateDottedDotsLink(lastAnchor, newPlatObj.transform, next.dottedLineOffset);
 
             if (rhythmPlat != null)
             {
@@ -123,5 +130,22 @@ public class PlatformSpawner : MonoBehaviour
     private void AssignBehavior(RhythmPlatform platform, PlatformBehavior behavior)
     {
         platform.SetBehavior(behavior);
+    }
+
+    private void CreateDottedDotsLink(Transform from, Transform to, Vector3 offsetLocal)
+    {
+        if (!dotPrefab) return;
+
+        GameObject go = new GameObject("DottedLinkDots");
+
+        var link = go.AddComponent<DottedLinkDots>();
+        link.a = from;
+        link.b = to;
+        link.aLocalOffset = offsetLocal;
+        link.bLocalOffset = offsetLocal;
+
+        link.dotPrefab = dotPrefab;
+        link.width = dottedLineWidth;
+        link.spacingMultiplier = dottedSpacingMultiplier;
     }
 }

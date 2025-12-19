@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Basic Single Jump
   m_EditorClassIdentifier: Assembly-CSharp::PlatformBehavior
   platformColor: {r: 0, g: 0.8301887, b: 0.14240703, a: 1}
-  hitWindowBeats: 0.25
+  hitWindowBeats: 1
   despawnAfterBeats: 2
   platformsToSpawn: 1
   splitsToSpawn: 1
@@ -30,3 +30,5 @@ MonoBehaviour:
   rotationMult: {x: 0, y: 1, z: 0}
   nextBehavior: {fileID: 11400000}
   loseOffset: 3
+  first: 0
+  last: 0

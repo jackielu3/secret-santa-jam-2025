@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: InitialPlatform
   m_EditorClassIdentifier: Assembly-CSharp::PlatformBehavior
   platformColor: {r: 1, g: 0.84232986, b: 0, a: 1}
-  hitWindowBeats: 0.25
-  despawnAfterBeats: 2
+  hitWindowBeats: 2
+  despawnAfterBeats: 1
   platformsToSpawn: 1
   splitsToSpawn: 0
   beatsBetweenSpawns: 1

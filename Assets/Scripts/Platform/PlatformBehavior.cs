@@ -11,6 +11,8 @@ public class PlatformBehavior : ScriptableObject
     [Header("Timing")]
     public float hitWindowBeats = 0.25f;
     public float despawnAfterBeats = 2f;
+    public float perfectWindowBeats = 0.2f;
+    public float okayWindowBeats = 0.5f;
 
     [Header("Spawning")]
     [Tooltip("How many platforms to spawn when player lands on this one.")]
@@ -42,6 +44,9 @@ public class PlatformBehavior : ScriptableObject
 
     [Header("Lose Plane")]
     public float loseOffset = 3f;
+
+    [Header("Line")]
+    public Vector3 dottedLineOffset = Vector3.zero;
 
     [Header("Special")]
     public bool first = false;

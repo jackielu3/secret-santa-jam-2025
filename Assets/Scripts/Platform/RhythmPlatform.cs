@@ -28,11 +28,13 @@ public class RhythmPlatform : MonoBehaviour
     private float _targetBeat;
     private float _expireBeat;
     private Coroutine _despawnRoutine;
+    public float TargetBeat => _targetBeat;
 
     private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
     private MaterialPropertyBlock _mpb;
 
-    public static System.Action<int, float, float> OnScored;
+    public enum Judgement { Perfect, Okay, Meh }
+    public static System.Action<int, float, float, Judgement> OnScored;
 
     private void Awake()
     {
@@ -124,7 +126,8 @@ public class RhythmPlatform : MonoBehaviour
             int score = ComputeScore(currentBeats);
             float deltaBeats = Mathf.Abs(currentBeats - _targetBeat);
 
-            OnScored?.Invoke(score, deltaBeats, _targetBeat);
+            var judgement = GetJudgement(deltaBeats);
+            OnScored?.Invoke(score, deltaBeats, _targetBeat, judgement);
         }
 
         if (_action != null)
@@ -152,5 +155,17 @@ public class RhythmPlatform : MonoBehaviour
         float delta = Mathf.Abs(currentBeat - _targetBeat);
         float t = 1f - Mathf.Clamp01(delta / Mathf.Max(1e-6f, behavior.hitWindowBeats));
         return Mathf.RoundToInt(t * 1000f);
+    }
+
+    private Judgement GetJudgement(float deltaBeats)
+    {
+        if (behavior == null) return Judgement.Meh;
+
+        float perfect = Mathf.Max(0f, behavior.perfectWindowBeats);
+        float okay = Mathf.Max(perfect, behavior.okayWindowBeats);
+
+        if (deltaBeats <= perfect) return Judgement.Perfect;
+        if (deltaBeats <= okay) return Judgement.Okay;
+        return Judgement.Meh;
     }
 }
