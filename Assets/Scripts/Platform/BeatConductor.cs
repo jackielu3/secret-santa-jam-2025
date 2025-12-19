@@ -61,4 +61,24 @@ public class BeatConductor : MonoBehaviour
         float nearestBeat = Mathf.Round(beats);
         return beats - nearestBeat;
     }
+
+    public void SwitchSong(AudioClip clip, float newBpm, float newOffsetSeconds, bool playImmediately)
+    {
+        if (musicSource == null) return;
+
+        if (clip != null) musicSource.clip = clip;
+
+        bpm = newBpm;
+        songOffsetSeconds = newOffsetSeconds;
+
+        _lastBeatIndex = -1;
+
+        if (playImmediately)
+        {
+            musicSource.Stop();
+            musicSource.time = 0f;
+            musicSource.Play();
+        }
+    }
+
 }

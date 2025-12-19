@@ -40,4 +40,12 @@ public class ScoreManager : MonoBehaviour
 
         Debug.Log($"Score: {score} ({judgement}) Delta {deltaBeats:0.000} beats, target {targetBeat:0.000} Total={TotalScore}");
     }
+
+    public void ResetScore()
+    {
+        TotalScore = 0;
+        LastScore = 0;
+        LastJudgement = RhythmPlatform.Judgement.NA;
+        OnScoreChanged?.Invoke(TotalScore, LastScore, LastJudgement);
+    }
 }

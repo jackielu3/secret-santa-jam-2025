@@ -45,6 +45,19 @@ public class PlayerMovement : MonoBehaviour
         HandleInput();
         HandleJump();
         UpdateAnimator();
+
+        if (GameManager.Instance != null && GameManager.Instance.IsGameRunning)
+        {
+            if (LoseBarrierManager.Instance != null)
+            {
+                loseHeight = LoseBarrierManager.Instance.CurrentLoseHeight;
+            }
+
+            if (transform.position.y < loseHeight)
+            {
+                GameManager.Instance.GameOver();
+            }
+        }
     }
 
     // Frame-rate independent update

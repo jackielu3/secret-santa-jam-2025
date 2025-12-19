@@ -19,6 +19,11 @@ public class PlayerLanding : MonoBehaviour
         if (platform != null)
         {
             platform.OnPlayerLanded(transform);
+
+            if (LoseBarrierManager.Instance != null)
+            {
+                LoseBarrierManager.Instance.SetCurrentPlatform(platform);
+            }
         }
     }
 }

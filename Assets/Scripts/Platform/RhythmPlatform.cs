@@ -1,7 +1,5 @@
-#if UNITY_EDITOR
 using System.Collections;
 using UnityEditor;
-#endif
 using UnityEngine;
 
 public interface IPlatformLandingAction
@@ -33,8 +31,9 @@ public class RhythmPlatform : MonoBehaviour
     private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
     private MaterialPropertyBlock _mpb;
 
-    public enum Judgement { Perfect, Okay, Meh }
+    public enum Judgement { Perfect, Okay, Meh, Miss, NA }
     public static System.Action<int, float, float, Judgement> OnScored;
+    public static System.Action OnEnd;
 
     private void Awake()
     {
@@ -120,7 +119,7 @@ public class RhythmPlatform : MonoBehaviour
         float offsetBeats = 0f;
         if (BeatConductor.Instance != null) offsetBeats = BeatConductor.Instance.GetOffsetBeats();
 
-        if (BeatConductor.Instance != null)
+        if (BeatConductor.Instance != null && !behavior.first && !behavior.last)
         {
             float currentBeats = BeatConductor.Instance.SongPositionBeats;
             int score = ComputeScore(currentBeats);

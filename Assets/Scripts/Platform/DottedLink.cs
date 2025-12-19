@@ -11,7 +11,7 @@ public class DottedLinkDots : MonoBehaviour
     public Vector3 bLocalOffset;
 
     [Header("Dot Settings")]
-    public Transform dotPrefab;      // your DotPrefab (quad with circle material)
+    public Transform dotPrefab;
     public float width = 0.08f;
     public float spacingMultiplier = 2.5f;
 

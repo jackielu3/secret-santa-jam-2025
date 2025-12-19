@@ -43,6 +43,8 @@ public class PlatformSpawner : MonoBehaviour
 
     private IEnumerator SpawnRoutine(Transform origin, PlatformBehavior behavior)
     {
+        if (GameManager.Instance == null || !GameManager.Instance.IsGameRunning) yield break;
+
         int count = Mathf.Max(1, behavior.platformsToSpawn);
 
         float secondsBetween = 0f;
@@ -77,6 +79,7 @@ public class PlatformSpawner : MonoBehaviour
                 AssignBehavior(rhythmPlat, next);
                 bool isLast = (i == count - 1);
                 rhythmPlat.SetLastInChain(isLast);
+                LoseBarrierManager.Instance.SetNextPlatform(rhythmPlat);
             }
 
             lastAnchor = newPlatObj.transform;

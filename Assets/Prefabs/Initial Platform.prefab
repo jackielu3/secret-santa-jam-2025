@@ -162,6 +162,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a39a457dbe78564da116f380c433c8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InitialPlatform
+  platformRoot: {fileID: 7894829001720141107}
+  liftDuration: 5
+  liftSpeed: 3
+  maxLiftHeight: 24
+  countdownSeconds: 3
+  countdownText: {fileID: 0}
+  countdownRoot: {fileID: 0}
+  scoreUIRoot: {fileID: 0}
+  resetScoreOnStart: 1
+  gameThemeClip: {fileID: 8300000, guid: a91522771aa27084d95a06a54652e101, type: 3}
+  gameThemeBpm: 90
+  gameThemeOffsetSeconds: 0
 --- !u!1 &7078343876703019966
 GameObject:
   m_ObjectHideFlags: 0
