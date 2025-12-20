@@ -45,8 +45,8 @@ public class ScoreUI : MonoBehaviour
         }
     }
 
-    private void OnEnd()
+    private void OnEnd(int score)
     {
-
+        this.gameObject.SetActive(false);
     }
 }

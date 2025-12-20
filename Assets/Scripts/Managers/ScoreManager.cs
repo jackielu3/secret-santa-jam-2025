@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     public RhythmPlatform.Judgement LastJudgement { get; private set; } = RhythmPlatform.Judgement.Meh;
 
     public static System.Action<int, int, RhythmPlatform.Judgement> OnScoreChanged;
+    public static System.Action<int> OnEndTriggered;
 
     private void Awake()
     {
@@ -23,11 +24,13 @@ public class ScoreManager : MonoBehaviour
     private void OnEnable()
     {
         RhythmPlatform.OnScored += HandleScored;
+        RhythmPlatform.OnEnd += HandleEnd;
     }
 
     private void OnDisable()
     {
         RhythmPlatform.OnScored -= HandleScored;
+        RhythmPlatform.OnEnd -= HandleEnd;
     }
 
     private void HandleScored(int score, float deltaBeats, float targetBeat, RhythmPlatform.Judgement judgement)
@@ -39,6 +42,14 @@ public class ScoreManager : MonoBehaviour
         OnScoreChanged?.Invoke(TotalScore, LastScore, LastJudgement);
 
         Debug.Log($"Score: {score} ({judgement}) Delta {deltaBeats:0.000} beats, target {targetBeat:0.000} Total={TotalScore}");
+    }
+
+    private void HandleEnd(int score)
+    {
+        // TODO ADD
+        
+        OnEndTriggered?.Invoke(score);
+        ResetScore();
     }
 
     public void ResetScore()

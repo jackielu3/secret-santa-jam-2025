@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: c3aa09622fa0d244aa7701bc07037db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -164,8 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InitialPlatform
   platformRoot: {fileID: 7894829001720141107}
   liftDuration: 5
-  liftSpeed: 3
-  maxLiftHeight: 24
+  liftSpeed: 5
+  maxLiftHeight: 32
   countdownSeconds: 3
   countdownText: {fileID: 0}
   countdownRoot: {fileID: 0}

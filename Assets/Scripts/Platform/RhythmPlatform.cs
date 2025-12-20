@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public interface IPlatformLandingAction
@@ -29,34 +28,31 @@ public class RhythmPlatform : MonoBehaviour
     public float TargetBeat => _targetBeat;
 
     private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
+    private static readonly int ColorId = Shader.PropertyToID("_Color");
     private MaterialPropertyBlock _mpb;
 
     public enum Judgement { Perfect, Okay, Meh, Miss, NA }
     public static System.Action<int, float, float, Judgement> OnScored;
-    public static System.Action OnEnd;
+    public static System.Action<int> OnEnd;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
         _action = GetComponent<IPlatformLandingAction>();
 
-        ApplyColorRuntime();
+        ApplyColor();
     }
-
-#if UNITY_EDITOR
     private void OnValidate()
     {
-        if (EditorApplication.isCompiling || EditorApplication.isUpdating)
-            return;
-
-        CacheRenderer();
-        ApplyColorEditor();
+        _renderer = GetComponent<Renderer>();
+        ApplyColor();
     }
-#endif
 
     private void OnEnable()
     {
         if (BeatConductor.Instance == null || behavior == null || behavior.first || behavior.last) return;
+
+        ApplyColor();
 
         _spawnBeat = BeatConductor.Instance.SongPositionBeats;
         _targetBeat = _spawnBeat + Mathf.Max(0f, behavior.despawnAfterBeats);
@@ -82,34 +78,18 @@ public class RhythmPlatform : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void CacheRenderer()
+    private void ApplyColor()
     {
         if (_renderer == null || behavior == null) return;
 
-        _renderer.material.color = behavior.platformColor;
-    }
-
-    private void ApplyColorRuntime()
-    {
-        if (_renderer && behavior != null)
-        {
-            _renderer.material.color = behavior.platformColor;
-        }
-    }
-
-#if UNITY_EDITOR
-    private void ApplyColorEditor()
-    {
-        if (_renderer == null || behavior == null) return;
         if (_mpb == null) _mpb = new MaterialPropertyBlock();
-
         _renderer.GetPropertyBlock(_mpb);
 
         _mpb.SetColor(BaseColorId, behavior.platformColor);
+        _mpb.SetColor(ColorId, behavior.platformColor);
 
         _renderer.SetPropertyBlock(_mpb);
     }
-#endif
 
     public void OnPlayerLanded(Transform player)
     {
@@ -141,8 +121,7 @@ public class RhythmPlatform : MonoBehaviour
     public void SetBehavior(PlatformBehavior newBehavior)
     {
         behavior = newBehavior;
-        CacheRenderer();
-        ApplyColorRuntime();
+        ApplyColor();
     }
 
     public void SetLastInChain(bool last) => lastInChain = last;
