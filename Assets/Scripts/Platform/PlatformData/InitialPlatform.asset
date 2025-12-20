@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce60b463909a3448bb91a7093736cc5, type: 3}
   m_Name: InitialPlatform
   m_EditorClassIdentifier: Assembly-CSharp::PlatformBehavior
+  platformPrefab: {fileID: 0}
   platformColor: {r: 1, g: 0.84232986, b: 0, a: 1}
   hitWindowBeats: 2
   despawnAfterBeats: 1
+  perfectWindowBeats: 0.2
+  okayWindowBeats: 0.5
   platformsToSpawn: 1
   splitsToSpawn: 0
   beatsBetweenSpawns: 1
@@ -27,8 +30,11 @@ MonoBehaviour:
   spawnArcDegrees: 0
   maxTopOffset: 0
   maxBotOffset: 0
+  landingAnchorLocal: {x: 0, y: 0, z: 0}
+  spawnAnchorLocal: {x: 0, y: 0, z: 0}
   rotationMult: {x: 0, y: 1, z: 0}
+  possibleNext: []
   nextBehavior: {fileID: 11400000, guid: d65877c77ff7fca468870c18b84f203d, type: 2}
-  loseOffset: 0
+  loseOffset: 3
   first: 1
   last: 0

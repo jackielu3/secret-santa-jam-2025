@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ce60b463909a3448bb91a7093736cc5, type: 3}
-  m_Name: Basic Single Jump
+  m_Name: Long Single Jump
   m_EditorClassIdentifier: Assembly-CSharp::PlatformBehavior
-  platformPrefab: {fileID: 1048497285396235887, guid: ba94cb20f338d104cb59c361dec64dbe, type: 3}
-  platformColor: {r: 0, g: 0.8301887, b: 0.14240703, a: 1}
+  platformPrefab: {fileID: 1048497285396235887, guid: 898cb2532d277134f98075769943245d, type: 3}
+  platformColor: {r: 0, g: 0.7653667, b: 0.83137256, a: 1}
   hitWindowBeats: 2
-  despawnAfterBeats: 2
+  despawnAfterBeats: 3
   perfectWindowBeats: 0.2
   okayWindowBeats: 0.5
   platformsToSpawn: 1
@@ -30,11 +30,14 @@ MonoBehaviour:
   spawnArcDegrees: 90
   maxTopOffset: 0.5
   maxBotOffset: -0.5
-  landingAnchorLocal: {x: 0, y: 0, z: 0}
-  spawnAnchorLocal: {x: 0, y: 0, z: 0}
+  landingAnchorLocal: {x: 0, y: 0, z: -0.5}
+  spawnAnchorLocal: {x: 0, y: 0, z: 2}
   rotationMult: {x: 0, y: 1, z: 0}
-  possibleNext: []
-  nextBehavior: {fileID: 11400000, guid: 20638061ccb7bbc4686327fba4d9d219, type: 2}
+  possibleNext:
+  - {fileID: 11400000, guid: d65877c77ff7fca468870c18b84f203d, type: 2}
+  - {fileID: 11400000, guid: d65877c77ff7fca468870c18b84f203d, type: 2}
+  - {fileID: 11400000}
+  nextBehavior: {fileID: 0}
   loseOffset: 3
   first: 0
   last: 0

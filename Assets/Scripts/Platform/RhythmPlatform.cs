@@ -6,11 +6,12 @@ public interface IPlatformLandingAction
     void OnLanded(RhythmPlatform platform, Transform player, float offsetBeats, bool lastInChain);
 }
 
-[RequireComponent(typeof(Renderer))]
 public class RhythmPlatform : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlatformBehavior behavior;
+    [SerializeField] private Renderer rendererOverride;
+
     public PlatformBehavior Behavior => behavior;
 
     [Header("Spawn Logic")]
@@ -37,26 +38,29 @@ public class RhythmPlatform : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
+        _renderer = rendererOverride != null ? rendererOverride : GetComponent<Renderer>();
         _action = GetComponent<IPlatformLandingAction>();
 
         ApplyColor();
     }
     private void OnValidate()
     {
-        _renderer = GetComponent<Renderer>();
+        if (rendererOverride == null)
+            _renderer = GetComponent<Renderer>();
+        else
+            _renderer = rendererOverride;
+
         ApplyColor();
     }
 
     private void OnEnable()
     {
-        if (BeatConductor.Instance == null || behavior == null || behavior.first || behavior.last) return;
-
         ApplyColor();
+
+        if (BeatConductor.Instance == null || behavior == null || behavior.first || behavior.last) return;
 
         _spawnBeat = BeatConductor.Instance.SongPositionBeats;
         _targetBeat = _spawnBeat + Mathf.Max(0f, behavior.despawnAfterBeats);
-
         float lifeBeats = Mathf.Max(0f, behavior.despawnAfterBeats) + Mathf.Max(0f, behavior.hitWindowBeats);
         _expireBeat = _targetBeat + Mathf.Max(0f, behavior.hitWindowBeats);
 

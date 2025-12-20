@@ -1,10 +1,12 @@
 using System;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Platform Behavior", fileName = "NewPlatformBehavior")]
 public class PlatformBehavior : ScriptableObject
 {
+    public GameObject platformPrefab;
+
     [Header("Look")]
     public Color platformColor = Color.white;
 
@@ -37,16 +39,19 @@ public class PlatformBehavior : ScriptableObject
     public float maxTopOffset = 0f;
     public float maxBotOffset = 0f;
 
+    [Header("Anchors")]
+    public Vector3 landingAnchorLocal = Vector3.zero;
+    public Vector3 spawnAnchorLocal = Vector3.zero;
+
     [Header("Rotation")]
     public Vector3 rotationMult = Vector3.one;
-    
+
+    [Header("Next Platform")]
+    public List<PlatformBehavior> possibleNext;
     public PlatformBehavior nextBehavior;
 
     [Header("Lose Plane")]
     public float loseOffset = 3f;
-
-    [Header("Line")]
-    public Vector3 dottedLineOffset = Vector3.zero;
 
     [Header("Special")]
     public bool first = false;

@@ -10,6 +10,10 @@ public class DottedLinkDots : MonoBehaviour
     public Vector3 aLocalOffset;
     public Vector3 bLocalOffset;
 
+    public Vector3 aWorldOffset;
+    public Vector3 bWorldOffset;
+    public bool useWorldOffsets = false;
+
     [Header("Dot Settings")]
     public Transform dotPrefab;
     public float width = 0.08f;
@@ -31,8 +35,8 @@ public class DottedLinkDots : MonoBehaviour
             return;
         }
 
-        Vector3 p0 = a.TransformPoint(aLocalOffset);
-        Vector3 p1 = b.TransformPoint(bLocalOffset);
+        Vector3 p0 = useWorldOffsets ? (a.position + aWorldOffset) : a.TransformPoint(aLocalOffset);
+        Vector3 p1 = useWorldOffsets ? (b.position + bWorldOffset) : b.TransformPoint(bLocalOffset);
 
         float dist = Vector3.Distance(p0, p1);
         if (dist < 0.001f) return;
