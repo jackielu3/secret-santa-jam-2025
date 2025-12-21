@@ -19,6 +19,7 @@ public class BeatConductor : MonoBehaviour
     public event Action<long> OnBeat;
     [ReadOnly] private long _lastBeatIndex = -1;
 
+    public AudioClip CurrentClip => musicSource ? musicSource.clip : null;
 
     private void Awake()
     {
@@ -29,7 +30,21 @@ public class BeatConductor : MonoBehaviour
         }
         Instance = this;
 
-        // MUSIC SOURCE CHECK
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void EnsureSong(AudioClip clip, float newBpm, float newOffsetSeconds)
+    {
+        if (musicSource == null) return;
+
+        if (musicSource.clip == clip && musicSource.isPlaying)
+        {
+            bpm = newBpm;
+            songOffsetSeconds = newOffsetSeconds;
+            return;
+        }
+
+        SwitchSong(clip, newBpm, newOffsetSeconds, playImmediately: true);
     }
 
     private void Update()

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [Header("UI Roots")]
     [SerializeField] private GameObject endUIRoot;
 
+    [SerializeField] private AudioClip defaultMusic;
+
     private GameObject _currentInitialPlatform;
 
     private void Awake()
@@ -35,8 +37,15 @@ public class GameManager : MonoBehaviour
         int score = 0;
         if (ScoreManager.Instance != null) score = ScoreManager.Instance.TotalScore;
 
-        endUIRoot.SetActive(true);
+        if (endUIRoot != null) endUIRoot.SetActive(true);
+        else Debug.LogWarning("GameOver: endUIRoot is not assigned.");
+
         RhythmPlatform.OnEnd?.Invoke(score);
+
+        if (BeatConductor.Instance != null)
+            BeatConductor.Instance.SwitchSong(defaultMusic, 70, 0f, true);
+        else
+            Debug.LogWarning("GameOver: BeatConductor.Instance is null (can't switch song).");
 
         RespawnInitialPlatform();
         Debug.Log("Game Over");
@@ -46,20 +55,32 @@ public class GameManager : MonoBehaviour
     {
         foreach (var platform in FindObjectsByType<RhythmPlatform>(FindObjectsSortMode.None))
         {
-            if (!platform.Behavior.first)
+            if (platform != null && platform.Behavior != null && !platform.Behavior.first)
                 Destroy(platform.gameObject);
+        }
+
+        if (initialPlatformPrefab == null)
+        {
+            Debug.LogWarning("RespawnInitialPlatform: initialPlatformPrefab is not assigned.");
+            return;
+        }
+
+        if (initialPlatformSpawnPoint == null)
+        {
+            Debug.LogWarning("RespawnInitialPlatform: initialPlatformSpawnPoint is not assigned.");
+            return;
         }
 
         if (_currentInitialPlatform != null)
             Destroy(_currentInitialPlatform);
 
-        if (initialPlatformPrefab && initialPlatformSpawnPoint)
-        {
-            _currentInitialPlatform = Instantiate(
-                initialPlatformPrefab,
-                initialPlatformSpawnPoint.position,
-                initialPlatformSpawnPoint.rotation
-                );
-        }
+        _currentInitialPlatform = Instantiate(
+            initialPlatformPrefab,
+            initialPlatformSpawnPoint.position,
+            initialPlatformSpawnPoint.rotation
+        );
+
+        Debug.Log($"RespawnInitialPlatform: Spawned '{_currentInitialPlatform.name}' at {initialPlatformSpawnPoint.position}");
     }
+
 }

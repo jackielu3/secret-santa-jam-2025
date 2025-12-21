@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CapsuleCollider col;
 
     [Header("Movement")]
-    [SerializeField] private float walkSpeed = 3.5f;
-    [SerializeField] private float sprintSpeed = 6.0f;
+    [SerializeField] private float walkSpeed = 6.0f;
+    [SerializeField] private float sprintSpeed = 3.5f;
     [SerializeField] private float dashForce = 5.0f;
     [SerializeField][ReadOnly] private float currentSpeed;
     [SerializeField][ReadOnly] private Vector3 moveInput;
@@ -166,12 +166,6 @@ public class PlayerMovement : MonoBehaviour
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
-
-    private void OnLose()
-    {
-
-    }
-
 }
 
 

@@ -25,6 +25,8 @@ public class EndUI : MonoBehaviour
     {
         endText.text = $"Woot Woot!!!\r\n{score} Points Scored!";
         yield return new WaitForSeconds(3f);
+        endText.text = "Press ESCAPE to go back";
+        yield return new WaitForSeconds(2f);
 
         this.gameObject.SetActive(false);
     }

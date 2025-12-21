@@ -27,6 +27,17 @@ public class InitialPlatform : MonoBehaviour, IPlatformLandingAction
 
     bool _started;
 
+    public void Awake()
+    {
+        var ui = GameUIRefs.Instance;
+        if (ui != null)
+        {
+            if (countdownRoot == null) countdownRoot = ui.countdownRoot;
+            if (countdownText == null) countdownText = ui.countdownText;
+            if (scoreUIRoot == null) scoreUIRoot = ui.scoreUIRoot;
+        }
+    }
+
     public void OnLanded(RhythmPlatform platform, Transform player, float offsetBeats, bool lastInChain)
     {
         if (_started) return;
@@ -94,5 +105,8 @@ public class InitialPlatform : MonoBehaviour, IPlatformLandingAction
             PlatformSpawner.Instance.SpawnFromPlatform(platform, player);
             LoseBarrierManager.Instance.SetCurrentPlatform(platform);
         }
+
+        yield return new WaitForSeconds(1.6f);
+        Destroy(gameObject);
     }
 }
