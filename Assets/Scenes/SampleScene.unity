@@ -3394,7 +3394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801b81dc7b80aef4da6dfd9321a390e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeatConductor
-  musicSource: {fileID: 0}
+  musicSource: {fileID: 1269259713}
   bpm: 70
   songOffsetSeconds: 0
 --- !u!82 &1269259713
@@ -3408,11 +3408,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: c0c4c05850ff52c47a96485de1c14137, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
